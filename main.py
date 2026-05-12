@@ -1,6 +1,7 @@
 from bigram_lm import *
 from typing import List
 import numpy as np
+import random
 from collections import Counter
 
 
@@ -87,7 +88,16 @@ def sample_word(lm, context_word: str):
     to get a random number, then follow the scheme described in the video for how to turn that random number
     into a random word.
     """
-    
+    rand_sample = random.uniform(0,1)
+
+    cumul_prob = 0.0
+    for word in lm.get_vocabulary():
+        prob = lm.get_probability(context_word, word)
+        cumul_prob += prob
+        if rand_sample <= cumul_prob:
+            return word
+    return END_SYMBOL
+
     #raise Exception("IMPLEMENT ME")
 
 
